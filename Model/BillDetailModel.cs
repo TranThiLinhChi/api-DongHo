@@ -9,8 +9,8 @@ namespace Model
         public string id { get; set; }
         public string bill_id { get; set; }
         public int product_id { get; set; }
-        public int  quantity_sale { get; set; }
-        public int price { get; set; }
+        public int quantity_sale { get; set; }
+        public float unit_price { get; set; }
         
     }
 }

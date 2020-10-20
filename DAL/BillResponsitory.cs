@@ -20,12 +20,13 @@ namespace DAL
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_hoa_don_create",
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_Bill_create",
                 "@id", model.id,
                 "@name", model.name,
                 "@total", model.total,
                 "@address", model.address,
                 "@phone", model.phone,
+                 "@email",model.email,
                 "@listjson_chitiet", model.listjson_chitiet != null ? MessageConvert.SerializeObject(model.listjson_chitiet) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
