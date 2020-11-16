@@ -21,7 +21,7 @@ namespace DAL
             try
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_product_create",
-                "@product_id", model.product_id,
+                //"@product_id", model.product_id,
                 "@name", model.name_pro,
                 "@image", model.image_pro,
                 "@price", model.unit_price,
@@ -78,7 +78,7 @@ namespace DAL
             string msgError = "";
             try
             {
-                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_product_delete",
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_pro_delete",
                 "@product_id", id
 
               );
@@ -124,6 +124,25 @@ namespace DAL
                 throw ex;
             }
         }
+        public List<ProductsModel> GetProductRelated(int id, string category_id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_product_related",
+                    "@product_id", id,
+                    "@category_id", category_id
+
+                     );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ProductsModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<ProductsModel> Search(int pageIndex, int pageSize, out long total, string id_type)
         {
             string msgError = "";
@@ -137,6 +156,40 @@ namespace DAL
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<ProductsModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ProductsModel> SearchName(string searchName)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_product_search_name",
+
+                    "@msg", searchName
+
+                     );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ProductsModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ProductsModel> GetDataNew()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_product_new");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
                 return dt.ConvertTo<ProductsModel>().ToList();
             }
             catch (Exception ex)
