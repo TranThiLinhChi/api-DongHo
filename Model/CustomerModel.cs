@@ -5,6 +5,7 @@ namespace Model
 {
     public class CustomerModel
     {
+        public int id { get; set; }
         public string name { get; set; }
         public string address { set; get; }
         public string phone { set; get; }

@@ -37,6 +37,7 @@ namespace DAL
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_category_create",
                 // "@product_id", model.product_id,
+                "@id", model.id,
                 "@name", model.name,
                 "@parent_id", model.parent_id,
                 "@seq_num", model.seq_num,

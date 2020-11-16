@@ -18,12 +18,32 @@ namespace API.Controllers
         {
             _itemGroupBusiness = itemGroupBusiness;
         }
-
         [Route("get-menu")]
         [HttpGet]
-        public IEnumerable<CategoryModel> GetAllMenu()
+        public IEnumerable<CategoryModel> GetMenu()
         {
             return _itemGroupBusiness.GetData();
+        }
+        [Route("create-category")]
+        [HttpPost]
+        public CategoryModel CreateCategory([FromBody] CategoryModel model)
+        {
+            _itemGroupBusiness.Create(model);
+            return model;
+        }
+        [Route("edit-category")]
+        [HttpPost]
+        public CategoryModel Edit(string id, [FromBody] CategoryModel model)
+        {
+            _itemGroupBusiness.Edit(id, model);
+            return model;
+        }
+        [Route("delete-category")]
+
+        public bool Delete(string id)
+        {
+            return _itemGroupBusiness.Delete(id);
+
         }
     }
 }

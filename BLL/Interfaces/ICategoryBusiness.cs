@@ -7,6 +7,9 @@ namespace BLL
 {
    public partial interface ICategoryBusiness
     {
+        bool Create(CategoryModel model);
+        bool Delete(string id);
+        bool Edit(string id, CategoryModel model);
         public List<CategoryModel> GetData();
     }
 }

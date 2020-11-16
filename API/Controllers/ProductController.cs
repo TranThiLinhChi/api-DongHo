@@ -16,13 +16,16 @@ namespace API.Controllers
     public class ProductController : ControllerBase
     {
         private IProductBusiness _ProductBusiness;
-
         private string _path;
-        public ProductController(IProductBusiness ProductBusiness, IConfiguration configuration)
+        private string _pathh;
+
+        public ProductController(IProductBusiness productBusiness, IConfiguration configuration)
         {
-            _ProductBusiness = ProductBusiness;
-            _path = configuration["AppSetting:PATH"];
+            _ProductBusiness = productBusiness;
+            _path = configuration["AppSettings:PATH"];
+            _pathh = configuration["AppSettings:PATHH"];
         }
+        //admin image
         public string SaveFileFromBase64String(string RelativePathFileName, string dataFromBase64String)
         {
             if (dataFromBase64String.Contains("base64,"))
@@ -49,7 +52,33 @@ namespace API.Controllers
                 return ex.Message;
             }
         }
-
+        //home image
+        public string SaveFileFromBase64(string RelativePathFile, string dataFromBase64)
+        {
+            if (dataFromBase64.Contains("base64,"))
+            {
+                dataFromBase64 = dataFromBase64.Substring(dataFromBase64.IndexOf("base64,", 0) + 7);
+            }
+            return WriteFileHome(RelativePathFile, dataFromBase64);
+        }
+        public string WriteFileHome(string RelativePathFile, string base64Data)
+        {
+            try
+            {
+                string result = "";
+                string serverRootPathFolderHome = _pathh;
+                string fullPathFileHome = $@"{serverRootPathFolderHome}\{RelativePathFile}";
+                string fullPathFolderHome = System.IO.Path.GetDirectoryName(fullPathFileHome);
+                if (!Directory.Exists(fullPathFolderHome))
+                    Directory.CreateDirectory(fullPathFolderHome);
+                System.IO.File.WriteAllBytes(fullPathFileHome, Convert.FromBase64String(base64Data));
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
         [Route("create-product")]
         [HttpPost]
         public ProductsModel CreateProduct([FromBody] ProductsModel model)
@@ -59,12 +88,12 @@ namespace API.Controllers
                 var arrData = model.image_pro.Split(';');
                 if (arrData.Length == 3)
                 {
-                    var savePath = $@"assets/images/product/{arrData[0]}";
+                    var savePath = $@"{arrData[0]}";
                     model.image_pro = $"{savePath}";
                     SaveFileFromBase64String(savePath, arrData[2]);
                 }
             }
-            _ProductBusiness.Create(model);
+           _ProductBusiness.Create(model);
             return model;
         }
         [Route("update-product/{id}")]
@@ -76,7 +105,7 @@ namespace API.Controllers
                 var arrData = model.image_pro.Split(';');
                 if (arrData.Length == 3)
                 {
-                    var savePath = $@"assets/phukien/images/{arrData[0]}";
+                    var savePath = $@"{arrData[0]}";
                     model.image_pro = $"{savePath}";
                     SaveFileFromBase64String(savePath, arrData[2]);
                 }
@@ -97,13 +126,30 @@ namespace API.Controllers
         {
             return _ProductBusiness.GetDatabyID(id);
         }
+        [Route("get-product-related/{id}/{category_id}")]
+        [HttpGet]
+        public IEnumerable<ProductsModel> GetProductRelated(int id, string category_id)
+        {
+            return _ProductBusiness.GetProductRelated(id, category_id);
+        }
         [Route("get-all")]
         [HttpGet]
         public IEnumerable<ProductsModel> GetDatabAll()
         {
             return _ProductBusiness.GetDataAll();
         }
-
+        [Route("search-name/{searchName}")]
+        [HttpGet]
+        public IEnumerable<ProductsModel> SearchName(string searchName)
+        {
+            return _ProductBusiness.SearchName(searchName);
+        }
+        [Route("get-new")]
+        [HttpGet]
+        public IEnumerable<ProductsModel> GetDataNew()
+        {
+            return _ProductBusiness.GetDataNew();
+        }
         [Route("search")]
         [HttpPost]
         public ResponseModel Search([FromBody] Dictionary<string, object> formData)

@@ -15,6 +15,19 @@ namespace BLL
             _res = ItemGroupRes;
         }
 
+        public bool Create(CategoryModel model)
+        {
+            return _res.Create(model);
+        }
+
+        public bool Edit(string id, CategoryModel model)
+        {
+            return _res.Edit(id, model);
+        }
+        public bool Delete(string id)
+        {
+            return _res.Delete(id);
+        }
         public List<CategoryModel> GetData()
         {
             var allItemGroups = _res.GetData();

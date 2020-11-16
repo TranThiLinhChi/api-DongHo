@@ -38,5 +38,18 @@ namespace BLL
         {
             return _res.Search(pageIndex, pageSize, out total, id_type);
         }
+        public List<ProductsModel> GetProductRelated(int id, string category_id)
+        {
+            return _res.GetProductRelated(id, category_id);
+        }
+        public List<ProductsModel> GetDataNew()
+        {
+            return _res.GetDataNew();
+        }
+        public List<ProductsModel> SearchName(string searchName)
+        {
+            return _res.SearchName(searchName);
+        }
+
     }
 }

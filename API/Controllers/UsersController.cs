@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         //[Authorize(Roles = Role.User)]
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("get-all")]
         public IActionResult GetAll()
@@ -45,6 +45,7 @@ namespace API.Controllers
         }
 
         //[Authorize(Roles = Role.User)]
+        
         [HttpGet("get-by-id/{id}")]
         public IActionResult GetById(string id)
         {
