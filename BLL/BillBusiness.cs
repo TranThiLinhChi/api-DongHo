@@ -17,5 +17,25 @@ namespace BLL
         {
             return _res.Create(model);
         }
+        public bool Delete(string id)
+        {
+            return _res.Delete(id);
+        }
+        public List<BillModel> GetAllBill()
+        {
+            return _res.GetAllBill();
+        }
+        public List<BillsDetailModel> GetBillByID(string id)
+        {
+            return _res.GetBillByID(id);
+        }
+        public List<BillsDetailModel> GetAllBillDetails()
+        {
+            return _res.GetAllBillDetails();
+        }
+        public Thang ThongKeDoanhThuTheoThang()
+        {
+            return _res.ThongKeDoanhThuTheoThang();
+        }
     }
 }

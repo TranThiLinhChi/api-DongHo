@@ -33,5 +33,29 @@ namespace API.Controllers
             _hoaDonBusiness.Create(model);
             return model;
         }
+        [Route ("delete-bill/{id}")]
+        [HttpGet]
+        public bool Delete(string id)
+        {
+            return _hoaDonBusiness.Delete(id);
+        }
+        [Route("get-bill-detail/{id}")]
+        [HttpGet]
+        public List<BillsDetailModel> GetBillDetail(string id)
+        {
+            return _hoaDonBusiness.GetBillByID(id);
+        }
+        [Route("get-bills")]
+        [HttpGet]
+        public List<BillModel> GetBills()
+        {
+            return _hoaDonBusiness.GetAllBill();
+        }
+        [Route("get-billdetail")]
+        [HttpGet]
+        public List<BillsDetailModel> GetBillDetail()
+        {
+            return _hoaDonBusiness.GetAllBillDetails();
+        }
     }
 }

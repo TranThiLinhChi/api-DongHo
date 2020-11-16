@@ -14,6 +14,6 @@ namespace Model
         public string phone { get; set; }
         public string email { get; set; }
         public DateTime? created_at { get; set; }
-        public List<BillDetailModel>listjson_chitiet { get; set; }
+        public List<BillsDetailModel>listjson_chitiet { get; set; }
     }
 }
